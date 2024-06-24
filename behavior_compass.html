@@ -7,50 +7,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            background-color: #f0f0f5;
-            margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
         #mainContainer {
             display: flex;
-            width: 90%;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
             max-width: 1400px;
-            margin: 20px;
+            margin-top: 20px;
         }
         #leftContainer, #rightContainer {
             flex: 1;
+            min-width: 300px;
             margin: 10px;
+            padding: 20px;
+            background-color: #1E1E1E;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
         #canvasContainer {
             flex: 2;
             position: relative;
+            margin: 10px;
+            padding: 20px;
+            background-color: #1E1E1E;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
         canvas {
-            border: 1px solid #ccc;
+            width: 100%;
+            height: auto;
+            border: 1px solid #333;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         #controls {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 20px;
+            left: 20px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 10px;
         }
         #controls button {
             padding: 10px;
             font-size: 14px;
-            border: 1px solid #ccc;
+            border: 1px solid #444;
             border-radius: 5px;
-            background-color: #007bff;
+            background-color: #007BFF;
             color: white;
             cursor: pointer;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
         }
         #controls button:hover {
             background-color: #0056b3;
@@ -66,30 +82,42 @@
             height: 150px;
             padding: 10px;
             font-size: 14px;
-            border: 1px solid #ccc;
+            border: 1px solid #444;
             border-radius: 5px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            background-color: #333;
+            color: #E0E0E0;
             resize: none;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         #jsonControls {
             display: flex;
             gap: 10px;
+            margin-top: 10px;
         }
         #jsonControls button {
             padding: 10px;
             font-size: 14px;
-            border: 1px solid #ccc;
+            border: 1px solid #444;
             border-radius: 5px;
-            background-color: #007bff;
+            background-color: #007BFF;
             color: white;
             cursor: pointer;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
         }
         #jsonControls button:hover {
             background-color: #0056b3;
         }
         #jsonControls input {
             display: none;
+        }
+        @media (max-width: 768px) {
+            #mainContainer {
+                flex-direction: column;
+                align-items: center;
+            }
+            #canvasContainer {
+                order: -1;
+            }
         }
     </style>
 </head>
@@ -113,7 +141,7 @@
         <div id="canvasContainer">
             <div id="controls">
                 <button onclick="clearCircles()">Clear Circles</button>
-                <button onclick="downloadCanvas()">Download Canvas</button>
+                <button onclick="saveCanvasWithCircles()">Save Image with Circles</button>
             </div>
         </div>
         <div id="rightContainer">
@@ -123,7 +151,7 @@
             </div>
             <div class="section">
                 <h3>6AM</h3>
-                <textarea id="6am"></textarea>
+                <textarea id="sixam"></textarea>
             </div>
             <div class="section">
                 <h3>F.A.T.E.</h3>
@@ -172,8 +200,11 @@
             redraw();
         }
 
-        function downloadCanvas() {
-            saveCanvas('behavior_compass', 'png');
+        function saveCanvasWithCircles() {
+            redraw(); // Ensure the latest circles are drawn
+            setTimeout(() => {
+                saveCanvas(canvas, 'behavior_compass_with_circles', 'png');
+            }, 100); // Delay to ensure the canvas is fully drawn
         }
 
         function downloadData() {
@@ -181,7 +212,7 @@
                 beliefs: document.getElementById('beliefs').value,
                 scripts: document.getElementById('scripts').value,
                 abc: document.getElementById('abc').value,
-                sixAm: document.getElementById('6am').value,
+                sixam: document.getElementById('sixam').value,
                 fate: document.getElementById('fate').value
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -205,7 +236,7 @@
                     document.getElementById('beliefs').value = data.beliefs || '';
                     document.getElementById('scripts').value = data.scripts || '';
                     document.getElementById('abc').value = data.abc || '';
-                    document.getElementById('6am').value = data.sixAm || '';
+                    document.getElementById('sixam').value = data.sixam || '';
                     document.getElementById('fate').value = data.fate || '';
                 };
                 reader.readAsText(file);
