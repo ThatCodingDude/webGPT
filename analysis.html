@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Situation Analysis</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #e6e6e6;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #ff4500;
+        }
+        .container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ff4500;
+            border-radius: 10px;
+            background-color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], textarea, select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #444;
+            color: #e6e6e6;
+            border: 1px solid #ff4500;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff4500;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e63900;
+        }
+        .scale-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .scale-container label {
+            width: 100%;
+            text-align: center;
+        }
+        .scale-container select {
+            width: calc(100% / 6);
+        }
+    </style>
+</head>
+<body>
+    <h1>Situation Analysis</h1>
+
+    <div class="container">
+        <h2>PCP</h2>
+        <label for="perception">Perception</label>
+        <textarea id="perception"></textarea>
+        <label for="context">Context</label>
+        <textarea id="context"></textarea>
+        <label for="permission">Permission</label>
+        <textarea id="permission"></textarea>
+    </div>
+
+    <div class="container">
+        <h2>6AM</h2>
+        <div class="scale-container">
+            <label for="focus">Focus</label>
+            <label for="openness">Openness</label>
+            <label for="suggestibility">Suggestibility</label>
+            <label for="compliance">Compliance</label>
+            <label for="expectancy">Expectancy</label>
+            <label for="connection">Connection</label>
+        </div>
+        <div class="scale-container">
+            <select id="focus">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <select id="openness">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <select id="suggestibility">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <select id="compliance">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <select id="expectancy">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <select id="connection">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>F.A.T.E.</h2>
+        <label for="fate-focus">Focus</label>
+        <textarea id="fate-focus"></textarea>
+        <label for="authority">Authority</label>
+        <textarea id="authority"></textarea>
+        <label for="tribe">Tribe</label>
+        <textarea id="tribe"></textarea>
+        <label for="emotion">Emotion</label>
+        <textarea id="emotion"></textarea>
+    </div>
+
+    <div class="container">
+        <h2>ABC</h2>
+        <label for="abc">ABC</label>
+        <textarea id="abc"></textarea>
+    </div>
+
+    <div class="container">
+        <h2>Beliefs</h2>
+        <label for="beliefs">Beliefs</label>
+        <textarea id="beliefs"></textarea>
+    </div>
+
+    <div class="container">
+        <h2>Notes</h2>
+        <label for="notes">Notes</label>
+        <textarea id="notes"></textarea>
+    </div>
+
+    <div class="container">
+        <button onclick="downloadData()">Download</button>
+        <input type="file" id="uploadFile" onchange="uploadData()" style="display:none;">
+        <button onclick="document.getElementById('uploadFile').click()">Upload</button>
+    </div>
+
+    <script>
+        function downloadData() {
+            const data = {
+                pcp: {
+                    perception: document.getElementById('perception').value,
+                    context: document.getElementById('context').value,
+                    permission: document.getElementById('permission').value
+                },
+                am6: {
+                    focus: document.getElementById('focus').value,
+                    openness: document.getElementById('openness').value,
+                    suggestibility: document.getElementById('suggestibility').value,
+                    compliance: document.getElementById('compliance').value,
+                    expectancy: document.getElementById('expectancy').value,
+                    connection: document.getElementById('connection').value
+                },
+                fate: {
+                    focus: document.getElementById('fate-focus').value,
+                    authority: document.getElementById('authority').value,
+                    tribe: document.getElementById('tribe').value,
+                    emotion: document.getElementById('emotion').value
+                },
+                abc: document.getElementById('abc').value,
+                beliefs: document.getElementById('beliefs').value,
+                notes: document.getElementById('notes').value
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "spy_tool_data.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function uploadData() {
+            const file = document.getElementById('uploadFile').files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = JSON.parse(event.target.result);
+                document.getElementById('perception').value = data.pcp.perception;
+                document.getElementById('context').value = data.pcp.context;
+                document.getElementById('permission').value = data.pcp.permission;
+                document.getElementById('focus').value = data.am6.focus;
+                document.getElementById('openness').value = data.am6.openness;
+                document.getElementById('suggestibility').value = data.am6.suggestibility;
+                document.getElementById('compliance').value = data.am6.compliance;
+                document.getElementById('expectancy').value = data.am6.expectancy;
+                document.getElementById('connection').value = data.am6.connection;
+                document.getElementById('fate-focus').value = data.fate.focus;
+                document.getElementById('authority').value = data.fate.authority;
+                document.getElementById('tribe').value = data.fate.tribe;
+                document.getElementById('emotion').value = data.fate.emotion;
+                document.getElementById('abc').value = data.abc;
+                document.getElementById('beliefs').value = data.beliefs;
+                document.getElementById('notes').value = data.notes;
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
